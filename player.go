@@ -187,6 +187,12 @@ func (p *InMemoryPlayer) doSendCommand(ctx context.Context, cmd command) error {
 }
 
 func (p *InMemoryPlayer) nextUnderLock() error {
+	if p.current == nil {
+		p.current = p.playlist
+		if p.current == nil {
+			return ErrPlaylistEmpty
+		}
+	}
 	p.current.posistion = 0
 	p.current = p.current.next
 	if p.current == nil {
@@ -197,6 +203,12 @@ func (p *InMemoryPlayer) nextUnderLock() error {
 }
 
 func (p *InMemoryPlayer) prevUnderLock() error {
+	if p.current == nil {
+		p.current = p.playlist
+		if p.current == nil {
+			return ErrPlaylistEmpty
+		}
+	}
 	p.current.posistion = 0
 	p.current = p.current.prev
 	if p.current == nil {
